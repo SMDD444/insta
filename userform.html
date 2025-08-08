@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Secure Question Form</title>
+<style>
+body { font-family: Arial; background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; }
+.container { background: white; padding: 20px; border-radius: 10px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+input, button { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: 1px solid #ccc; }
+button { background: #4CAF50; color: white; border: none; cursor: pointer; }
+button:hover { background: #45a049; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Secure Form</h2>
+    <input type="text" id="question" placeholder="Enter your question" required>
+    <input type="text" id="answer" placeholder="Enter your answer" required>
+    <button onclick="sendData()">Submit</button>
+</div>
+
+<script>
+function sendData() {
+    const question = document.getElementById("question").value;
+    const answer = document.getElementById("answer").value;
+
+    if (!question || !answer) {
+        alert("Please fill both fields.");
+        return;
+    }
+
+    fetch("http://localhost:3000/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, answer })
+    })
+    .then(res => res.json())
+    .then(data => alert("Submitted successfully!"))
+    .catch(err => alert("Error sending data"));
+}
+</script>
+</body>
+</html>
